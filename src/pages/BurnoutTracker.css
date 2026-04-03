@@ -1,0 +1,64 @@
+.burnout-form { display: flex; flex-direction: column; gap: 1rem; }
+
+.dimension-card { display: flex; flex-direction: column; gap: 0.75rem; }
+.dimension-header { display: flex; align-items: flex-start; gap: 1rem; }
+.dimension-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 0.1rem; }
+.dimension-label { font-weight: 500; font-size: 0.95rem; }
+.dimension-question { font-size: 0.85rem; color: #4a6878; margin-top: 0.15rem; }
+
+.score-buttons { display: flex; gap: 0.5rem; }
+
+.score-btn {
+  flex: 1; padding: 0.6rem; border-radius: 0.75rem;
+  border: 1px solid #c2dded; background: #eef6fb;
+  font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
+  font-weight: 500; color: #4a6878; cursor: pointer; transition: all 0.15s;
+}
+.score-btn:hover { border-color: #5ba3c9; color: #5ba3c9; }
+.score-btn.selected { background: #5ba3c9; color: white; border-color: #5ba3c9; }
+
+.score-labels {
+  display: flex; justify-content: space-between;
+  font-size: 0.75rem; color: #7a9ab0;
+}
+
+.score-bar { height: 4px; background: #ddeef7; border-radius: 2px; overflow: hidden; }
+.score-fill { height: 100%; background: #5ba3c9; border-radius: 2px; transition: width 0.4s ease; }
+
+.results-section { display: flex; flex-direction: column; gap: 1.25rem; }
+
+.result-card {
+  text-align: center; display: flex; flex-direction: column;
+  align-items: center; gap: 0.75rem; padding: 2.5rem 2rem;
+  border-top: 4px solid var(--level-color);
+}
+
+.result-badge {
+  padding: 0.4rem 1.25rem; border-radius: 2rem;
+  color: white; font-weight: 600; font-size: 0.9rem;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+.result-score {
+  font-family: 'Lora', serif; font-size: 3rem;
+  font-weight: 600; color: #1a2e3b; line-height: 1;
+}
+
+.result-desc { color: #4a6878; max-width: 380px; line-height: 1.6; font-size: 0.95rem; }
+
+.breakdown-title {
+  font-size: 0.8rem; text-transform: uppercase;
+  letter-spacing: 1px; color: #4a6878; font-weight: 500;
+}
+
+.breakdown-list { display: flex; flex-direction: column; gap: 0.75rem; }
+.breakdown-item { padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
+
+.breakdown-header {
+  display: flex; justify-content: space-between;
+  align-items: center; font-size: 0.9rem;
+}
+
+.breakdown-score { font-weight: 600; color: #1a2e3b; }
+.breakdown-bar { height: 6px; background: #ddeef7; border-radius: 3px; overflow: hidden; }
+.breakdown-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }

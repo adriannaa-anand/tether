@@ -1,0 +1,64 @@
+.mood-step { display: flex; flex-direction: column; gap: 1.75rem; }
+.step-label { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.8px; color: #4a6878; font-weight: 500; }
+
+.mood-grid { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+
+.mood-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  padding: 1rem 1.25rem; border-radius: 1.25rem;
+  border: 2px solid transparent; background: #eef6fb;
+  cursor: pointer; transition: all 0.2s; min-width: 72px;
+}
+.mood-btn:hover { border-color: var(--mood-color); transform: translateY(-2px); }
+.mood-btn.selected { border-color: var(--mood-color); background: color-mix(in srgb, var(--mood-color) 12%, white); }
+
+.mood-emoji { font-size: 2rem; }
+.mood-label { font-size: 0.78rem; font-weight: 500; color: #4a6878; }
+
+.feelings-section { display: flex; flex-direction: column; gap: 0.75rem; }
+.feelings-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.feeling-tag {
+  padding: 0.4rem 0.9rem; border-radius: 2rem;
+  border: 1px solid #c2dded; background: #eef6fb;
+  font-size: 0.85rem; color: #4a6878; cursor: pointer;
+  transition: all 0.15s; font-family: 'DM Sans', sans-serif;
+}
+.feeling-tag:hover { border-color: #5ba3c9; color: #1a2e3b; }
+.feeling-tag.selected { background: #5ba3c9; color: white; border-color: #5ba3c9; }
+
+.selected-mood-preview {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 1rem 1.25rem; border-radius: 1rem;
+  background: color-mix(in srgb, var(--mood-color) 10%, white);
+  border: 1px solid color-mix(in srgb, var(--mood-color) 30%, white);
+  font-size: 1.1rem; flex-wrap: wrap;
+}
+
+.preview-feelings { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.step-actions { display: flex; gap: 1rem; }
+
+.success-step { text-align: center; align-items: center; padding: 3rem 2rem; }
+.success-icon {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: #7ec8a4; color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; margin-bottom: 0.5rem;
+}
+.success-step h2 { font-family: 'Lora', serif; font-size: 1.5rem; }
+.success-step p { color: #4a6878; margin: 0.5rem 0 1.5rem; }
+
+.history-section { margin-top: 2.5rem; }
+.history-title { font-family: 'Lora', serif; font-size: 1.2rem; margin-bottom: 1rem; }
+.history-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.history-item {
+  background: #f5fafd; border: 1px solid #c2dded; border-radius: 1rem;
+  padding: 1rem 1.25rem; display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+}
+.history-meta { display: flex; align-items: center; gap: 0.75rem; }
+.history-emoji { font-size: 1.5rem; }
+.history-date { font-size: 0.78rem; color: #4a6878; }
+.history-mood { font-size: 0.9rem; font-weight: 500; }
+.history-feelings { display: flex; gap: 0.4rem; flex-wrap: wrap; }
