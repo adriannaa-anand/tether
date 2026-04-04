@@ -179,3 +179,15 @@ terraform apply
 **Adriannaa Anand**
 - GitHub: [@adriannaa-anand](https://github.com/adriannaa-anand)
 - LinkedIn: [Adriannaa Anand](https://linkedin.com/in/adriannaa-anand)
+
+<img width="1917" height="902" alt="Tether s3 " src="https://github.com/user-attachments/assets/6a60e309-9ea6-454d-b63f-12ffc3af1731" />
+<img width="1918" height="915" alt="Tether EC2" src="https://github.com/user-attachments/assets/3db24a86-7b05-455c-bf10-46e2b6fe5bab" />
+<img width="1918" height="826" alt="dynamoDB" src="https://github.com/user-attachments/assets/67db95b1-cdc2-4f7c-a657-510fc815b683" />
+<img width="1918" height="911" alt="Tether codepipeline" src="https://github.com/user-attachments/assets/3c5995c0-1a65-4baa-956a-796d3f68a897" />
+<img width="1919" height="969" alt="image" src="https://github.com/user-attachments/assets/a5b08d35-4e80-49ac-82f8-4d8932db26b6" />
+<img width="1901" height="907" alt="image" src="https://github.com/user-attachments/assets/50670a10-2829-4f00-a1fb-404878e63917" />
+<img width="1919" height="914" alt="image" src="https://github.com/user-attachments/assets/9cde82f8-3960-4f4d-a7d6-08ced46bb9be" />
+<img width="1912" height="914" alt="image" src="https://github.com/user-attachments/assets/77ac11a2-653a-4dc8-b01c-d3b512d8dc25" />
+<img width="1917" height="916" alt="image" src="https://github.com/user-attachments/assets/d4246fd4-5d59-4431-97a8-31ecd9eab5fe" />
+
+
