@@ -8,6 +8,8 @@
 ![Node.js](https://img.shields.io/badge/Backend-Node.js-green?logo=node.js)
 ![DynamoDB](https://img.shields.io/badge/Database-DynamoDB-blue?logo=amazon-dynamodb)
 
+> This repo contains the **React frontend**, **Express.js backend**, **Terraform infrastructure**, and **CI/CD pipeline config** — everything needed to reproduce this project from scratch.
+
 ---
 
 ## 🌐 Live Demo
@@ -20,13 +22,19 @@
 
 Tether is a mental health companion app designed for people dealing with social anxiety, burnout, loneliness, and grief. Unlike generic wellness apps, Tether focuses on the feelings that are hardest to name — and provides gentle, judgment-free tools to navigate them.
 
-### Features
+No social feed. No followers. Just you, gently supported.
 
-- **🔐 Auth** — Secure register/login with JWT authentication
-- **😊 Mood Check-In** — Daily mood tracking with feelings tags and notes
-- **◎ Anonymous Connect** — Get matched with someone feeling something similar, no names needed
-- **⚡ Burnout Tracker** — Rate yourself across 5 dimensions and track patterns over time
-- **📓 Grief Journal** — Private journaling with guided prompts
+---
+
+## ✨ Features
+
+| Feature | Description |
+|---|---|
+| 🔐 **Auth** | Secure register/login with JWT + bcrypt password hashing |
+| 😊 **Mood Check-In** | Daily mood tracking with feelings tags, notes, and history |
+| ◎ **Anonymous Connect** | Get matched with someone feeling something similar — no names needed |
+| ⚡ **Burnout Tracker** | Rate yourself across 5 dimensions and track patterns over time |
+| 📓 **Grief Journal** | Private journaling with guided prompts and delete support |
 
 ---
 
@@ -44,21 +52,39 @@ GitHub → AWS CodePipeline → AWS CodeBuild → S3 (React Frontend)
 
 | Service | Purpose |
 |---|---|
-| **S3** | Static website hosting for React frontend |
-| **CodePipeline** | CI/CD pipeline — auto deploys on every push |
-| **CodeBuild** | Builds the React app |
-| **EC2** | Hosts the Express.js backend |
+| **S3** | Static website hosting for the React frontend |
+| **CodePipeline** | CI/CD pipeline — auto deploys on every push to main |
+| **CodeBuild** | Builds the React app (`npm run build`) |
+| **EC2** | Hosts the Express.js backend (Ubuntu 22.04 + PM2) |
 | **DynamoDB** | NoSQL database for all user data |
-| **IAM** | Roles and permissions |
+| **IAM** | Least-privilege roles for CodePipeline and CodeBuild |
 
 ### DynamoDB Tables
 
-| Table | Description |
-|---|---|
-| `tether-users` | User accounts with email GSI |
-| `tether-moods` | Mood check-ins per user |
-| `tether-journal` | Journal entries per user |
-| `tether-burnout` | Burnout assessment scores |
+| Table | Partition Key | Sort Key | Description |
+|---|---|---|---|
+| `tether-users` | `userId` | — | User accounts (email GSI for login) |
+| `tether-moods` | `userId` | `createdAt` | Mood check-ins per user |
+| `tether-journal` | `userId` | `createdAt` | Journal entries per user |
+| `tether-burnout` | `userId` | `createdAt` | Burnout assessment scores |
+
+---
+
+## 🚀 CI/CD Pipeline
+
+Every push to `main` automatically triggers:
+
+```
+GitHub Push
+    ↓
+AWS CodePipeline (Source Stage)
+    ↓
+AWS CodeBuild (Build Stage — npm run build)
+    ↓
+Amazon S3 (Deploy Stage — static website)
+```
+
+The entire pipeline was provisioned using **Terraform** — no manual setup in the AWS console.
 
 ---
 
@@ -66,8 +92,8 @@ GitHub → AWS CodePipeline → AWS CodeBuild → S3 (React Frontend)
 
 **Frontend**
 - React 18
-- CSS Modules (baby blue & pastel green theme)
-- Hosted on AWS S3
+- Custom CSS (baby blue & pastel green theme)
+- Hosted on AWS S3 as a static website
 
 **Backend**
 - Node.js + Express.js
@@ -75,24 +101,14 @@ GitHub → AWS CodePipeline → AWS CodeBuild → S3 (React Frontend)
 - bcryptjs for password hashing
 - AWS SDK v3 for DynamoDB
 - PM2 for process management
-- Hosted on AWS EC2
+- Hosted on AWS EC2 (Ubuntu 22.04)
 
 **Infrastructure (IaC)**
 - Terraform
-- Remote state on S3 + DynamoDB locking
-- Modular structure (IAM, Pipeline modules)
-
----
-
-## 🚀 CI/CD Pipeline
-
-Every push to `main` triggers:
-
-```
-GitHub Push → CodePipeline → CodeBuild (npm run build) → Deploy to S3
-```
-
-The pipeline was fully provisioned using **Terraform**.
+- Remote state stored in S3
+- State locking via DynamoDB
+- Modular structure — IAM module + Pipeline module
+- IAM roles with least-privilege policies
 
 ---
 
@@ -100,28 +116,37 @@ The pipeline was fully provisioned using **Terraform**.
 
 ```
 tether/
-├── src/
+├── src/                          ← React frontend
 │   ├── App.jsx
-│   ├── api.js               ← API helper
+│   ├── App.css
+│   ├── api.js                    ← API helper (all fetch calls)
+│   ├── index.js
 │   └── pages/
-│       ├── Auth.jsx          ← Login & Register
-│       ├── Landing.jsx       ← Home page
-│       ├── MoodCheckIn.jsx   ← Mood tracker
-│       ├── AnonymousMatch.jsx← Connect feature
-│       ├── BurnoutTracker.jsx← Burnout assessment
-│       └── GriefJournal.jsx  ← Private journal
+│       ├── Auth.jsx              ← Login & Register
+│       ├── Landing.jsx           ← Home page
+│       ├── MoodCheckIn.jsx       ← Daily mood tracker
+│       ├── AnonymousMatch.jsx    ← Anonymous connect feature
+│       ├── BurnoutTracker.jsx    ← Burnout assessment
+│       └── GriefJournal.jsx      ← Private journal
 ├── public/
+│   └── index.html
 ├── server/
-│   ├── index.js             ← Express backend
-│   └── package.json
+│   ├── index.js                  ← Express.js backend
+│   ├── package.json
+│   └── .env.example
 ├── modules/
-│   ├── iam/                 ← Terraform IAM module
-│   └── pipeline/            ← Terraform pipeline module
-├── main.tf
+│   ├── iam/                      ← Terraform IAM module
+│   │   ├── main.tf
+│   │   └── outputs.tf
+│   └── pipeline/                 ← Terraform pipeline module
+│       ├── main.tf
+│       └── outputs.tf
+├── main.tf                       ← Root Terraform config
 ├── variables.tf
-├── backend.tf
+├── backend.tf                    ← Remote state config
 ├── outputs.tf
-└── buildspec.yml            ← CodeBuild config
+├── buildspec.yml                 ← CodeBuild build spec
+└── package.json
 ```
 
 ---
@@ -138,6 +163,7 @@ tether/
 npm install
 npm start
 ```
+Runs on `http://localhost:3000`
 
 ### Backend
 ```bash
@@ -147,13 +173,14 @@ cp .env.example .env
 # Fill in your AWS credentials and JWT secret
 npm start
 ```
+Runs on `http://localhost:8080`
 
-### Environment Variables (server/.env)
+### Environment Variables (`server/.env`)
 ```
 AWS_REGION=us-east-2
-AWS_ACCESS_KEY_ID=your-key
-AWS_SECRET_ACCESS_KEY=your-secret
-JWT_SECRET=your-secret-key
+AWS_ACCESS_KEY_ID=your-access-key
+AWS_SECRET_ACCESS_KEY=your-secret-key
+JWT_SECRET=your-jwt-secret
 PORT=8080
 ```
 
@@ -161,16 +188,75 @@ PORT=8080
 
 ## 🏗️ Infrastructure Setup (Terraform)
 
+### Prerequisites
+- Terraform installed
+- AWS CLI configured
+- S3 bucket for remote state (created manually once)
+- DynamoDB table for state locking (created manually once)
+
+### Deploy
 ```bash
-# Initialize with remote state
+# Initialize backend
 terraform init
 
 # Preview changes
 terraform plan
 
-# Deploy
+# Deploy all infrastructure
 terraform apply
 ```
+
+### What Terraform provisions
+- IAM roles for CodePipeline and CodeBuild with least-privilege policies
+- S3 buckets for artifacts and website hosting
+- CodeBuild project
+- Full CodePipeline (Source → Build → Deploy)
+- S3 website configuration
+
+---
+
+## 🗄️ DynamoDB Setup
+
+Create the 4 tables in AWS:
+
+```bash
+aws dynamodb create-table --table-name tether-users \
+  --attribute-definitions AttributeName=userId,AttributeType=S \
+  --key-schema AttributeName=userId,KeyType=HASH \
+  --billing-mode PAY_PER_REQUEST --region us-east-2
+
+aws dynamodb create-table --table-name tether-moods \
+  --attribute-definitions AttributeName=userId,AttributeType=S AttributeName=createdAt,AttributeType=S \
+  --key-schema AttributeName=userId,KeyType=HASH AttributeName=createdAt,KeyType=RANGE \
+  --billing-mode PAY_PER_REQUEST --region us-east-2
+
+aws dynamodb create-table --table-name tether-journal \
+  --attribute-definitions AttributeName=userId,AttributeType=S AttributeName=createdAt,AttributeType=S \
+  --key-schema AttributeName=userId,KeyType=HASH AttributeName=createdAt,KeyType=RANGE \
+  --billing-mode PAY_PER_REQUEST --region us-east-2
+
+aws dynamodb create-table --table-name tether-burnout \
+  --attribute-definitions AttributeName=userId,AttributeType=S AttributeName=createdAt,AttributeType=S \
+  --key-schema AttributeName=userId,KeyType=HASH AttributeName=createdAt,KeyType=RANGE \
+  --billing-mode PAY_PER_REQUEST --region us-east-2
+```
+
+Also create the email GSI on `tether-users` for login:
+```bash
+aws dynamodb update-table --table-name tether-users \
+  --attribute-definitions AttributeName=email,AttributeType=S \
+  --global-secondary-indexes '[{"IndexName":"email-index","KeySchema":[{"AttributeName":"email","KeyType":"HASH"}],"Projection":{"ProjectionType":"ALL"}}]' \
+  --billing-mode PAY_PER_REQUEST --region us-east-2
+```
+
+---
+
+## 🔐 Security Notes
+
+- Never commit `.env` files — use `.env.example` as a template
+- IAM roles follow least-privilege principle
+- Passwords are hashed with bcrypt before storage
+- JWT tokens expire after 7 days
 
 ---
 
@@ -180,6 +266,11 @@ terraform apply
 - GitHub: [@adriannaa-anand](https://github.com/adriannaa-anand)
 - LinkedIn: [Adriannaa Anand](https://linkedin.com/in/adriannaa-anand)
 
+---
+
+## 📄 License
+
+MIT License
 <img width="1917" height="902" alt="Tether s3 " src="https://github.com/user-attachments/assets/6a60e309-9ea6-454d-b63f-12ffc3af1731" />
 <img width="1918" height="915" alt="Tether EC2" src="https://github.com/user-attachments/assets/3db24a86-7b05-455c-bf10-46e2b6fe5bab" />
 <img width="1918" height="826" alt="dynamoDB" src="https://github.com/user-attachments/assets/67db95b1-cdc2-4f7c-a657-510fc815b683" />
