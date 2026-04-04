@@ -265,12 +265,7 @@ aws dynamodb update-table --table-name tether-users \
 **Adriannaa Anand**
 - GitHub: [@adriannaa-anand](https://github.com/adriannaa-anand)
 - LinkedIn: [Adriannaa Anand](https://linkedin.com/in/adriannaa-anand)
-
----
-
-## 📄 License
-
-MIT License
+----
 <img width="1917" height="902" alt="Tether s3 " src="https://github.com/user-attachments/assets/6a60e309-9ea6-454d-b63f-12ffc3af1731" />
 <img width="1918" height="915" alt="Tether EC2" src="https://github.com/user-attachments/assets/3db24a86-7b05-455c-bf10-46e2b6fe5bab" />
 <img width="1918" height="826" alt="dynamoDB" src="https://github.com/user-attachments/assets/67db95b1-cdc2-4f7c-a657-510fc815b683" />
